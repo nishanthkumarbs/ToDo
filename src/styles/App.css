@@ -79,3 +79,27 @@ h1 {
     margin-left: 5px;
     cursor: pointer;
 }
+
+.filter-buttons {
+    margin-bottom: 15px;
+}
+
+.filter-buttons button {
+    margin-right: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.task-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+}

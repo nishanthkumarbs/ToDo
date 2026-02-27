@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { getTodos } from "./services/api";
+import { getTodos, deleteTodo } from "./services/api";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,19 @@ function App() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const clearCompleted = async () => {
+    const completedTodos = todos.filter(todo => todo.completed);
+
+    try {
+      await Promise.all(
+        completedTodos.map(todo => deleteTodo(todo.id))
+      );
+      fetchTodos();
+    } catch (error) {
+      console.error("Error clearing completed todos:", error);
     }
   };
 
@@ -62,10 +76,33 @@ function App() {
       <input type="text" placeholder="Search todos..." value={search} onChange={(e) => setSearch(e.target.value)} className="search-input" />
 
       <div className="filter-buttons">
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("completed")}>Completed</button>
-        <button onClick={() => setFilter("pending")}>Pending</button>
+        <button
+          className={filter === "all" ? "active-filter" : ""}
+          onClick={() => setFilter("all")}
+        >
+          All
+        </button>
+
+        <button
+          className={filter === "completed" ? "active-filter" : ""}
+          onClick={() => setFilter("completed")}
+        >
+          Completed
+        </button>
+
+        <button
+          className={filter === "pending" ? "active-filter" : ""}
+          onClick={() => setFilter("pending")}
+        >
+          Pending
+        </button>
       </div>
+
+      {completedCount > 0 && (
+        <button className="clear-btn" onClick={clearCompleted}>
+          Clear Completed
+        </button>
+      )}
 
       <TodoList todos={filteredTodos} fetchTodos={fetchTodos} />
     </div>

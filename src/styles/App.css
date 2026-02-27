@@ -103,3 +103,15 @@ h1 {
     padding: 8px;
     margin-bottom: 15px;
 }
+
+.loading {
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+}
+
+.error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}

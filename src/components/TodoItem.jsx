@@ -4,6 +4,7 @@ import { deleteTodo, updateTodo } from "../services/api";
 const TodoItem = ({ todo, fetchTodos }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(todo.title);
+    const [editedDueDate, setEditedDueDate] = useState(todo.dueDate || "");
 
     const handleDelete = async () => {
         try {
@@ -32,7 +33,8 @@ const TodoItem = ({ todo, fetchTodos }) => {
         try {
             await updateTodo(todo.id, {
                 ...todo,
-                title: editedTitle
+                title: editedTitle,
+                dueDate: editedDueDate
             });
             setIsEditing(false);
             fetchTodos();
@@ -40,6 +42,24 @@ const TodoItem = ({ todo, fetchTodos }) => {
             console.error("Error editing todo:", error);
         }
     };
+
+    const getDaysLeft = (dueDate) => {
+        if (!dueDate) return null;
+
+        const today = new Date();
+        const due = new Date(dueDate);
+
+        // Remove time part for accurate day calculation
+        today.setHours(0, 0, 0, 0);
+        due.setHours(0, 0, 0, 0);
+
+        const diffTime = due - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays;
+    };
+
+    const daysLeft = getDaysLeft(todo.dueDate);
 
     return (
         <li className="todo-item">
@@ -49,6 +69,13 @@ const TodoItem = ({ todo, fetchTodos }) => {
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
                         className="edit-input"
+                    />
+
+                    <input
+                        type="date"
+                        value={editedDueDate}
+                        onChange={(e) => setEditedDueDate(e.target.value)}
+                        className="edit-date-input"
                     />
 
                     <div className="action-buttons">
@@ -66,12 +93,46 @@ const TodoItem = ({ todo, fetchTodos }) => {
                 </>
             ) : (
                 <>
-                    <span
-                        onClick={handleToggle}
-                        className={todo.completed ? "completed" : ""}
-                    >
-                        {todo.title}
-                    </span>
+                    <div className="todo-content">
+                        <span
+                            onClick={handleToggle}
+                            className={`${todo.completed ? "completed" : ""} priority-${todo.priority}`}
+                        >
+                            {todo.title}
+                        </span>
+
+                        {todo.dueDate && (
+                            <div className="due-date-row">
+                                <span className="due-label">📅 Due:</span>
+                                <span className="due-value">
+                                    {new Date(todo.dueDate).toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric"
+                                    })}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    {daysLeft !== null && (
+                        <span
+                            className={`countdown-badge ${daysLeft < 0
+                                ? "overdue"
+                                : daysLeft === 0
+                                    ? "today"
+                                    : daysLeft <= 2
+                                        ? "warning"
+                                        : "safe"
+                                }`}
+                        >
+                            {daysLeft > 0
+                                ? `${daysLeft} day${daysLeft > 1 ? "s" : ""} left`
+                                : daysLeft === 0
+                                    ? "Due today"
+                                    : "Overdue"}
+                        </span>
+                    )}
 
                     <div className="action-buttons">
                         <button

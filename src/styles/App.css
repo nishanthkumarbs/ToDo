@@ -18,7 +18,7 @@ body {
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    transition: 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .app-container:hover {
@@ -124,7 +124,7 @@ h1 {
 
 .todo-item:hover {
     background: #f1f3ff;
-    transform: scale(1.02);
+    transform: translateY(-3px) scale(1.02);
 }
 
 .todo-item span {
@@ -145,12 +145,13 @@ h1 {
     padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.2s ease;
 }
 
 .delete-btn:hover {
     background: #cc0000;
 }
+
 
 /* Loading & Error */
 .loading {
@@ -190,6 +191,7 @@ h1 {
 .action-buttons {
     display: flex;
     gap: 8px;
+    transition: all 0.2s ease;
 }
 
 /* Shared Button Style */
@@ -241,6 +243,10 @@ h1 {
 
 .cancel-btn:hover {
     background-color: #868e96;
+}
+
+button {
+    transition: all 0.2s ease;
 }
 
 /* Edit Input */
@@ -311,4 +317,258 @@ h1 {
 
 .dark .active-filter {
     background-color: #4dabf7 !important;
+}
+
+/* Fade + Slide Animation */
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.todo-item {
+    animation: fadeSlideIn 0.3s ease forwards;
+}
+
+.todo-item {
+    cursor: grab;
+}
+
+.todo-item:active {
+    cursor: grabbing;
+}
+
+/* Priority Colors */
+.priority-low {
+    border-left: 4px solid #40c057;
+    padding-left: 8px;
+}
+
+.priority-medium {
+    border-left: 4px solid #fab005;
+    padding-left: 8px;
+}
+
+.priority-high {
+    border-left: 4px solid #fa5252;
+    padding-left: 8px;
+}
+
+/* Priority Dropdown */
+.priority-select {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s ease;
+    appearance: none;
+}
+
+/* Priority Colors */
+.prioritys-low {
+    background-color: #d3f9d8;
+    color: #2f9e44;
+}
+
+.prioritys-medium {
+    background-color: #fff3bf;
+    color: #e67700;
+}
+
+.prioritys-high {
+    background-color: #ffe3e3;
+    color: #c92a2a;
+}
+
+/* Focus Effect */
+.priority-select:focus {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.sort-buttons {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sort-buttons button {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: none;
+    background: #dee2e6;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.sort-buttons button:hover {
+    background: #667eea;
+    color: white;
+}
+
+.date-input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.due-date {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Sort Container */
+.sort-container {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Sort Dropdown */
+.sort-select {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: none;
+    background-color: #e9ecef;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    appearance: none;
+    /* Remove default arrow style */
+    min-width: 220px;
+}
+
+/* Hover Effect */
+.sort-select:hover {
+    background-color: #667eea;
+    color: white;
+}
+
+/* Focus Effect */
+.sort-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Dark Mode */
+.dark .sort-select {
+    background-color: #2f2f2f;
+    color: white;
+}
+
+.dark .sort-select:hover {
+    background-color: #4dabf7;
+}
+
+/* Countdown Badge */
+.countdown-badge {
+    display: inline-flex;
+    /* Better than inline-block */
+    align-items: center;
+    justify-content: center;
+
+    padding: 2px 8px;
+    /* Reduced padding */
+    font-size: 11px;
+    /* Slightly smaller text */
+    font-weight: 600;
+
+    border-radius: 14px;
+    /* Slightly smaller pill */
+    width: fit-content;
+    /* Only take needed width */
+    max-width: max-content;
+    /* Prevent stretching */
+
+    white-space: nowrap;
+    /* Prevent line break */
+
+}
+
+/* More than 2 days */
+.safe {
+    background-color: #d3f9d8;
+    color: #2f9e44;
+}
+
+/* 1-2 days left */
+.warning {
+    background-color: #fff3bf;
+    color: #e67700;
+}
+
+/* Due today */
+.today {
+    background-color: #ffe066;
+    color: #c92a2a;
+}
+
+/* Overdue */
+.overdue {
+    background-color: #ffc9c9;
+    color: #c92a2a;
+}
+
+/* Todo Content Layout */
+.todo-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Due Date Row */
+.due-date-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Due Label */
+.due-label {
+    font-weight: 600;
+}
+
+.due-value {
+    background-color: #f1f3f5;
+    padding: 4px 12px;
+    /* increased vertical + horizontal */
+    border-radius: 16px;
+    /* smoother pill shape */
+    min-width: 100px;
+    /* ensures consistent width */
+    text-align: center;
+    /* keeps text centered */
+}
+
+/* Dark Mode Support */
+.dark .due-value {
+    background-color: #2f2f2f;
+}
+
+.edit-date-input {
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.dark .edit-date-input {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
 }

@@ -1,19 +1,39 @@
 {
   "todos": [
     {
-      "id": "2acb",
-      "title": "Learn Spring Boot",
-      "completed": false
+      "id": "d113",
+      "title": "Spring",
+      "completed": false,
+      "priority": "medium",
+      "dueDate": "2026-03-01"
     },
     {
-      "id": "98c3",
-      "title": "Develop Full Stack Project",
-      "completed": false
+      "id": "c80b",
+      "title": "React",
+      "completed": false,
+      "priority": "medium",
+      "dueDate": "2026-03-02"
     },
     {
-      "id": "5c2d",
-      "title": "Create react app",
-      "completed": true
+      "id": "d86d",
+      "title": "Angular",
+      "completed": false,
+      "priority": "low",
+      "dueDate": "2026-03-05"
+    },
+    {
+      "id": "a58e",
+      "title": "Node js",
+      "completed": false,
+      "priority": "high",
+      "dueDate": "2026-03-07"
+    },
+    {
+      "id": "f359",
+      "title": "Database",
+      "completed": false,
+      "priority": "low",
+      "dueDate": ""
     }
   ]
 }

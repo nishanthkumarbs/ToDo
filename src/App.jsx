@@ -11,7 +11,16 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [sortOrder, setSortOrder] = useState("none");
+
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("darkMode");
+    return savedTheme === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   const fetchTodos = async () => {
     try {
@@ -49,7 +58,13 @@ function App() {
     fetchTodos();
   }, []);
 
-  const filteredTodos = todos
+  const priorityRank = {
+    high: 3,
+    medium: 2,
+    low: 1
+  };
+
+  let filteredTodos = todos
     .filter((todo) => {
       if (filter === "completed") return todo.completed;
       if (filter === "pending") return !todo.completed;
@@ -58,6 +73,52 @@ function App() {
     .filter((todo) =>
       todo.title.toLowerCase().includes(search.toLowerCase())
     );
+
+  filteredTodos = [...filteredTodos].sort((a, b) => {
+
+    // PRIORITY: High → Low
+    if (sortOrder === "priority-desc") {
+      return priorityRank[b.priority] - priorityRank[a.priority];
+    }
+
+    // PRIORITY: Low → High
+    if (sortOrder === "priority-asc") {
+      return priorityRank[a.priority] - priorityRank[b.priority];
+    }
+
+    // DUE DATE: Earliest First
+    if (sortOrder === "date-asc") {
+      if (!a.dueDate && !b.dueDate) return 0;
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    }
+
+    // DUE DATE: Latest First
+    if (sortOrder === "date-desc") {
+      if (!a.dueDate && !b.dueDate) return 0;
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return new Date(b.dueDate) - new Date(a.dueDate);
+    }
+
+    // COMBINED: Due Date → Then Priority
+    if (sortOrder === "date-priority") {
+
+      // First compare due dates
+      if (a.dueDate && b.dueDate) {
+        const dateDiff =
+          new Date(a.dueDate) - new Date(b.dueDate);
+
+        if (dateDiff !== 0) return dateDiff;
+      }
+
+      // If same date OR no date → compare priority
+      return priorityRank[b.priority] - priorityRank[a.priority];
+    }
+
+    return 0;
+  });
 
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
@@ -90,6 +151,36 @@ function App() {
           All
         </button>
 
+        <div className="sort-container">
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="sort-select"
+          >
+            <option value="none">Sort Options</option>
+
+            <option value="priority-desc">
+              Priority: High → Low
+            </option>
+
+            <option value="priority-asc">
+              Priority: Low → High
+            </option>
+
+            <option value="date-asc">
+              Due Date: Earliest First
+            </option>
+
+            <option value="date-desc">
+              Due Date: Latest First
+            </option>
+
+            <option value="date-priority">
+              Due Date → Then Priority
+            </option>
+          </select>
+        </div>
+
         <button
           className={filter === "completed" ? "active-filter" : ""}
           onClick={() => setFilter("completed")}
@@ -111,7 +202,11 @@ function App() {
         </button>
       )}
 
-      <TodoList todos={filteredTodos} fetchTodos={fetchTodos} />
+      <TodoList
+        todos={filteredTodos}
+        fetchTodos={fetchTodos}
+        setTodos={setTodos}
+      />
     </div>
   );
 }

@@ -11,6 +11,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
 
   const fetchTodos = async () => {
     try {
@@ -59,7 +60,13 @@ function App() {
     );
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${darkMode ? "dark" : ""}`}>
+      <button
+        className="dark-toggle"
+        onClick={() => setDarkMode(!darkMode)}
+      >
+        {darkMode ? "Light Mode" : "Dark Mode"}
+      </button>
       <h1>Todo App</h1>
 
       {loading && <p className="loading">Loading...</p>}

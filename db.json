@@ -2,7 +2,12 @@
   "todos": [
     {
       "id": "2acb",
-      "title": "Spring boot",
+      "title": "Learn Spring Boot",
+      "completed": false
+    },
+    {
+      "id": "98c3",
+      "title": "Develop Full Stack Project",
       "completed": false
     }
   ]

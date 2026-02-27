@@ -48,8 +48,21 @@ const TodoItem = ({ todo, fetchTodos }) => {
                     <input
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
+                        className="edit-input"
                     />
-                    <button onClick={handleUpdate}>💾</button>
+
+                    <div className="action-buttons">
+                        <button className="save-btn" onClick={handleUpdate}>
+                            Save
+                        </button>
+
+                        <button
+                            className="cancel-btn"
+                            onClick={() => setIsEditing(false)}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </>
             ) : (
                 <>
@@ -60,10 +73,19 @@ const TodoItem = ({ todo, fetchTodos }) => {
                         {todo.title}
                     </span>
 
-                    <div>
-                        <button onClick={() => setIsEditing(true)}>✏</button>
-                        <button className="delete-btn" onClick={handleDelete}>
-                            ❌
+                    <div className="action-buttons">
+                        <button
+                            className="edit-btn"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            className="delete-btn"
+                            onClick={handleDelete}
+                        >
+                            Delete
                         </button>
                     </div>
                 </>

@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { deleteTodo, updateTodo } from "../services/api";
 
 const TodoItem = ({ todo, fetchTodos }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(todo.title);
 
     const handleDelete = async () => {
         try {
@@ -23,18 +26,48 @@ const TodoItem = ({ todo, fetchTodos }) => {
         }
     };
 
+    const handleUpdate = async () => {
+        if (!editedTitle.trim()) return;
+
+        try {
+            await updateTodo(todo.id, {
+                ...todo,
+                title: editedTitle
+            });
+            setIsEditing(false);
+            fetchTodos();
+        } catch (error) {
+            console.error("Error editing todo:", error);
+        }
+    };
+
     return (
         <li className="todo-item">
-            <span
-                onClick={handleToggle}
-                className={todo.completed ? "completed" : ""}
-            >
-                {todo.title}
-            </span>
+            {isEditing ? (
+                <>
+                    <input
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                    <button onClick={handleUpdate}>💾</button>
+                </>
+            ) : (
+                <>
+                    <span
+                        onClick={handleToggle}
+                        className={todo.completed ? "completed" : ""}
+                    >
+                        {todo.title}
+                    </span>
 
-            <button className="delete-btn" onClick={handleDelete}>
-                ❌
-            </button>
+                    <div>
+                        <button onClick={() => setIsEditing(true)}>✏</button>
+                        <button className="delete-btn" onClick={handleDelete}>
+                            ❌
+                        </button>
+                    </div>
+                </>
+            )}
         </li>
     );
 };

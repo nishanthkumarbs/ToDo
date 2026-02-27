@@ -9,6 +9,11 @@
       "id": "98c3",
       "title": "Develop Full Stack Project",
       "completed": false
+    },
+    {
+      "id": "aa04",
+      "title": "Create React Project",
+      "completed": true
     }
   ]
 }

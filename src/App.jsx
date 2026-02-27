@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { getTodos } from './services/api';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
+import { useEffect, useState } from "react";
+import { getTodos } from "./services/api";
+import TodoList from "./components/TodoList";
+import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
 
-const App = () => {
+function App() {
   const [todos, setTodos] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
-  // Fetch todos from backend
   const fetchTodos = async () => {
+
     try {
       const response = await getTodos();
       setTodos(response.data);
@@ -16,19 +18,47 @@ const App = () => {
       console.error("Error fetching todos:", error);
     }
   };
+  const totalCount = todos.length;
+  const completedCount = todos.filter(todo => todo.completed).length;
+  const pendingCount = totalCount - completedCount;
 
   useEffect(() => {
     fetchTodos();
   }, []);
 
+  const filteredTodos = todos
+    .filter((todo) => {
+      if (filter === "completed") return todo.completed;
+      if (filter === "pending") return !todo.completed;
+      return true;
+    })
+    .filter((todo) =>
+      todo.title.toLowerCase().includes(search.toLowerCase())
+    );
 
   return (
     <div className="app-container">
       <h1>Todo App</h1>
+
       <TodoForm fetchTodos={fetchTodos} />
-      <TodoList todos={todos} fetchTodos={fetchTodos} />
+
+      <div className="task-stats">
+        <p>Total: {totalCount}</p>
+        <p>Completed: {completedCount}</p>
+        <p>Pending: {pendingCount}</p>
+      </div>
+
+      <input type="text" placeholder="Search todos..." value={search} onChange={(e) => setSearch(e.target.value)} className="search-input" />
+
+      <div className="filter-buttons">
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("completed")}>Completed</button>
+        <button onClick={() => setFilter("pending")}>Pending</button>
+      </div>
+
+      <TodoList todos={filteredTodos} fetchTodos={fetchTodos} />
     </div>
   );
 }
 
-export default App
+export default App;

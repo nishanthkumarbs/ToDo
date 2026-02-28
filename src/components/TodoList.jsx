@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, fetchTodos, setTodos }) => {
+const TodoList = ({ todos, fetchTodos, setTodos, setSelectedTask }) => {
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
@@ -33,6 +33,7 @@ const TodoList = ({ todos, fetchTodos, setTodos }) => {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
+                                        onClick={() => setSelectedTask(todo)}
                                     >
                                         <TodoItem
                                             todo={todo}

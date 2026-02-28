@@ -102,13 +102,19 @@ const TodoItem = ({ todo, fetchTodos }) => {
                             {todo.title}
                         </span>
 
+                        {todo.category && (
+                            <span className={`category-badge category-${todo.category}`}>
+                                {todo.category}
+                            </span>
+                        )}
+
                         {todo.dueDate && (
                             <div
                                 className={`due-date-row ${daysLeft < 0
-                                        ? "due-overdue"
-                                        : daysLeft === 0
-                                            ? "due-today"
-                                            : ""
+                                    ? "due-overdue"
+                                    : daysLeft === 0
+                                        ? "due-today"
+                                        : ""
                                     }`}
                             >
                                 <span className="due-label">

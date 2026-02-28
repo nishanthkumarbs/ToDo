@@ -34,6 +34,14 @@
       "completed": false,
       "priority": "low",
       "dueDate": ""
+    },
+    {
+      "id": "c474",
+      "title": "Project",
+      "completed": false,
+      "priority": "low",
+      "dueDate": "2026-03-01",
+      "category": "work"
     }
   ]
 }

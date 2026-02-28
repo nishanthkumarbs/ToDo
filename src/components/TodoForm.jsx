@@ -5,6 +5,7 @@ const TodoForm = ({ fetchTodos }) => {
     const [title, setTitle] = useState("");
     const [priority, setPriority] = useState("medium");
     const [dueDate, setDueDate] = useState("");
+    const [category, setCategory] = useState("work");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,11 +17,13 @@ const TodoForm = ({ fetchTodos }) => {
                 title: title,
                 completed: false,
                 priority: priority,
-                dueDate: dueDate
+                dueDate: dueDate,
+                category: category
             });
 
             setTitle("");
             setDueDate("");
+            setCategory("work");
             fetchTodos(); // refresh list
         } catch (error) {
             console.error("Error adding todo:", error);
@@ -41,6 +44,17 @@ const TodoForm = ({ fetchTodos }) => {
             />
 
             <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="category-select"
+            >
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="study">Study</option>
+                <option value="health">Health</option>
+            </select>
+
+            <select
                 className={`priority-select prioritys-${priority}`}
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
@@ -49,6 +63,8 @@ const TodoForm = ({ fetchTodos }) => {
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
+
+
 
             <button type="submit" style={{ marginLeft: "10px", padding: "8px" }}>
                 Add

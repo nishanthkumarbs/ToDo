@@ -1123,29 +1123,104 @@ button {
 }
 
 .undo-toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 
-  background: #333;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
 
-  display: flex;
-  gap: 15px;
-  align-items: center;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 
-  animation: fadeIn 0.3s ease;
-  z-index: 3000;
+    animation: fadeIn 0.3s ease;
+    z-index: 3000;
 }
 
 .undo-toast button {
-  background: #4dabf7;
-  border: none;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  cursor: pointer;
+    background: #4dabf7;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.completed-info {
+    background: #e6fcf5;
+    color: #087f5b;
+    font-weight: 600;
+}
+
+.dark .completed-info {
+    background: #124734;
+    color: #69db7c;
+}
+
+.sidebar-icon {
+    font-size: 14px;
+    color: #667eea;
+}
+
+.dark .sidebar-icon {
+    color: #4dabf7;
+}
+
+.sidebar-icon {
+    font-size: 14px;
+    color: #667eea;
+    min-width: 18px;
+}
+
+/* Grey muted icon */
+.icon-muted {
+    color: #adb5bd;
+}
+
+.dark .sidebar-icon {
+    color: #4dabf7;
+}
+
+.dark .icon-muted {
+    color: #555;
+}
+
+/* Sidebar Edit Button */
+.sidebar-edit-btn {
+    margin-top: 15px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #667eea;
+    background: transparent;
+    color: #667eea;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sidebar-edit-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* Sidebar Save Button */
+.sidebar-save-btn {
+    margin-top: 15px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sidebar-save-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-1px);
 }

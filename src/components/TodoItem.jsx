@@ -20,7 +20,10 @@ const TodoItem = ({ todo, fetchTodos }) => {
         try {
             await updateTodo(todo.id, {
                 ...todo,
-                completed: !todo.completed
+                completed: !todo.completed,
+                completedAt: !todo.completed
+                    ? new Date().toISOString()
+                    : null
             });
             fetchTodos();
         } catch (error) {

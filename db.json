@@ -3,22 +3,24 @@
     {
       "id": "d113",
       "title": "Spring boot",
-      "completed": false,
+      "completed": true,
       "priority": "high",
       "dueDate": "2026-02-28",
       "category": "study",
       "repeat": "daily",
-      "reminder": "2026-02-28T14:05"
+      "reminder": "2026-02-28T14:05",
+      "completedAt": "2026-02-28T10:40:23.902Z"
     },
     {
       "id": "c80b",
       "title": "React",
-      "completed": false,
+      "completed": true,
       "priority": "medium",
       "dueDate": "2026-02-27",
       "category": "study",
       "repeat": "daily",
-      "reminder": ""
+      "reminder": "",
+      "completedAt": "2026-02-28T10:41:36.295Z"
     },
     {
       "id": "d86d",
@@ -57,13 +59,25 @@
     {
       "id": "137f",
       "title": "todo",
-      "completed": false,
+      "completed": true,
       "priority": "low",
       "dueDate": "2026-03-02",
       "category": "personal",
       "repeat": "none",
       "reminder": "",
-      "createdAt": "2026-02-28T09:52:20.516Z"
+      "createdAt": "2026-02-28T09:52:20.516Z",
+      "completedAt": "2026-02-28T10:41:20.779Z"
+    },
+    {
+      "id": "6e04",
+      "title": "check",
+      "completed": false,
+      "priority": "medium",
+      "dueDate": "",
+      "category": "work",
+      "repeat": "none",
+      "reminder": "",
+      "createdAt": "2026-02-28T10:55:33.558Z"
     }
   ]
 }

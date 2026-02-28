@@ -3,6 +3,7 @@ import { updateTodo } from "../services/api";
 import { FaCalendarAlt, FaTag, FaFlag } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { deleteTodo } from "../services/api";
+import { FaRedo, FaBell } from "react-icons/fa";
 
 const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWithUndo }) => {
     // ✅ All hooks must be at top level
@@ -74,6 +75,22 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
         return `Created ${diffDays} days ago`;
     };
 
+    const getCompletedText = () => {
+        if (!selectedTask.completedAt) return null;
+
+        const completed = new Date(selectedTask.completedAt);
+        const now = new Date();
+
+        const diffDays = Math.floor(
+            (now - completed) / (1000 * 60 * 60 * 24)
+        );
+
+        if (diffDays === 0) return "Completed today";
+        if (diffDays === 1) return "Completed yesterday";
+
+        return `Completed ${diffDays} days ago`;
+    };
+
     return (
         <div className="sidebar-overlay" onClick={closeSidebar}>
             <div
@@ -138,7 +155,10 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
                             className="sidebar-input"
                         />
 
-                        <button className="save-btn" onClick={handleSave}>
+                        <button
+                            className="sidebar-save-btn"
+                            onClick={handleSave}
+                        >
                             Save Changes
                         </button>
                     </>
@@ -147,37 +167,64 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
                         <h2>{selectedTask.title}</h2>
 
                         <div className="sidebar-section">
-                            <FaCalendarAlt />
+                            <FaCalendarAlt
+                                className={`sidebar-icon ${!selectedTask.dueDate ? "icon-muted" : ""
+                                    }`}
+                            />
+
                             <span>
                                 {selectedTask.dueDate
-                                    ? new Date(selectedTask.dueDate).toLocaleDateString("en-US", {
-                                        year: "numeric",
-                                        month: "short",
-                                        day: "numeric"
-                                    })
+                                    ? new Date(selectedTask.dueDate).toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric"
+                                        }
+                                    )
                                     : "No due date"}
                             </span>
                         </div>
 
                         <div className="sidebar-section">
-                            <FaTag />
-                            <span>{selectedTask.category}</span>
+                            <FaTag
+                                className={`sidebar-icon ${!selectedTask.category ? "icon-muted" : ""
+                                    }`}
+                            />
+
+                            <span style={{ textTransform: "capitalize" }}>
+                                {selectedTask.category || "None"}
+                            </span>
                         </div>
 
                         <div className="sidebar-section">
-                            <FaFlag />
-                            <span>{selectedTask.priority}</span>
+                            <FaFlag
+                                className={`sidebar-icon ${!selectedTask.priority ? "icon-muted" : ""
+                                    }`}
+                            />
+
+                            <span style={{ textTransform: "capitalize" }}>
+                                {selectedTask.priority || "None"}
+                            </span>
                         </div>
 
                         <div className="sidebar-section">
-                            <span>Repeat:</span>
+                            <FaRedo
+                                className={`sidebar-icon ${selectedTask.repeat === "none"
+                                    ? "icon-muted"
+                                    : ""
+                                    }`}
+                            />
                             <span style={{ textTransform: "capitalize" }}>
                                 {selectedTask.repeat || "None"}
                             </span>
                         </div>
 
                         <div className="sidebar-section">
-                            <span>Reminder:</span>
+                            <FaBell
+                                className={`sidebar-icon ${!selectedTask.reminder ? "icon-muted" : ""
+                                    }`}
+                            />
                             <span>
                                 {selectedTask.reminder
                                     ? new Date(selectedTask.reminder).toLocaleString()
@@ -186,11 +233,12 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
                         </div>
 
                         <button
-                            className="edit-btn"
+                            className="sidebar-edit-btn"
                             onClick={() => setIsEditing(true)}
                         >
                             Edit Task
                         </button>
+
                         <div className="sidebar-footer">
                             <span className="created-text">
                                 {getCreatedText()}
@@ -228,6 +276,12 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        )}
+
+                        {selectedTask.completed && selectedTask.completedAt && (
+                            <div className="sidebar-section completed-info">
+                                {getCompletedText()}
                             </div>
                         )}
 

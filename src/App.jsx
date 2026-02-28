@@ -5,6 +5,7 @@ import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
 import { FaMoon, FaSun } from "react-icons/fa";
 import TaskSidebar from "./components/TaskSidebar";
+import CalendarView from "./components/CalendarView";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ function App() {
   const [sortOrder, setSortOrder] = useState("none");
   const [selectedTask, setSelectedTask] = useState(null);
   const [notifiedTasks, setNotifiedTasks] = useState([]);
+  const [viewMode, setViewMode] = useState("list");
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
@@ -246,12 +248,32 @@ function App() {
             </button>
           )}
 
-          <TodoList
-            todos={filteredTodos}
-            fetchTodos={fetchTodos}
-            setTodos={setTodos}
-            setSelectedTask={setSelectedTask}
-          />
+          <div className="view-toggle">
+            <button
+              className={viewMode === "list" ? "active-view" : ""}
+              onClick={() => setViewMode("list")}
+            >
+              List View
+            </button>
+
+            <button
+              className={viewMode === "calendar" ? "active-view" : ""}
+              onClick={() => setViewMode("calendar")}
+            >
+              Calendar View
+            </button>
+          </div>
+
+          {viewMode === "list" ? (
+            <TodoList
+              todos={filteredTodos}
+              fetchTodos={fetchTodos}
+              setTodos={setTodos}
+              setSelectedTask={setSelectedTask}
+            />
+          ) : (
+            <CalendarView todos={filteredTodos} />
+          )}
         </div>
       </div>
       <TaskSidebar

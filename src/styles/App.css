@@ -879,3 +879,121 @@ button {
     color: white;
     border: 1px solid #555;
 }
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.view-toggle button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #dee2e6;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.active-view {
+    background-color: #667eea;
+    color: white;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.view-toggle button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #dee2e6;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.active-view {
+    background-color: #667eea;
+    color: white;
+}
+
+.calendar-container {
+    margin-top: 20px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-header {
+    font-weight: 600;
+    text-align: center;
+}
+
+.calendar-cell {
+    min-height: 100px;
+    padding: 6px;
+    border-radius: 10px;
+    background: #f1f3f5;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.calendar-cell.empty {
+    background: transparent;
+}
+
+.calendar-date {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.calendar-task {
+    font-size: 11px;
+    background: #667eea;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.dark .calendar-cell {
+    background: #2a2a2a;
+}
+
+.dark .calendar-task {
+    background: #4dabf7;
+}
+
+.calendar-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.calendar-header-bar button {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #dee2e6;
+    font-weight: bold;
+}
+
+.calendar-header-bar button:hover {
+    background: #667eea;
+    color: white;
+}
+
+.dark .calendar-header-bar button {
+    background: #333;
+    color: white;
+}

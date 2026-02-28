@@ -6,6 +6,7 @@ const TodoForm = ({ fetchTodos }) => {
     const [priority, setPriority] = useState("medium");
     const [dueDate, setDueDate] = useState("");
     const [category, setCategory] = useState("work");
+    const [repeat, setRepeat] = useState("none");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,16 +15,18 @@ const TodoForm = ({ fetchTodos }) => {
 
         try {
             await createTodo({
-                title: title,
+                title,
                 completed: false,
-                priority: priority,
-                dueDate: dueDate,
-                category: category
+                priority,
+                dueDate,
+                category,
+                repeat
             });
 
             setTitle("");
             setDueDate("");
             setCategory("work");
+            setRepeat("none");
             fetchTodos(); // refresh list
         } catch (error) {
             console.error("Error adding todo:", error);
@@ -52,6 +55,17 @@ const TodoForm = ({ fetchTodos }) => {
                 <option value="personal">Personal</option>
                 <option value="study">Study</option>
                 <option value="health">Health</option>
+            </select>
+
+            <select
+                value={repeat}
+                onChange={(e) => setRepeat(e.target.value)}
+                className="category-select"
+            >
+                <option value="none">No Repeat</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
             </select>
 
             <select

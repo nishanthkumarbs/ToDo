@@ -795,3 +795,75 @@ button {
 .dark .sidebar-section {
     background: #2a2a2a;
 }
+
+.sidebar-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+.sidebar .save-btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.dark .sidebar-input {
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+/* Sidebar Backdrop */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+
+    display: flex;
+    justify-content: flex-end;
+
+    z-index: 999;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Sidebar Slide Animation */
+.sidebar {
+    width: 400px;
+    height: 100vh;
+
+    background: white;
+    padding: 30px;
+
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+
+    animation: slideIn 0.3s ease forwards;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.dark .sidebar {
+    background: #1e1e1e;
+    color: white;
+}

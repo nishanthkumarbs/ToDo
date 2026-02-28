@@ -217,6 +217,7 @@ function App() {
       <TaskSidebar
         selectedTask={selectedTask}
         closeSidebar={() => setSelectedTask(null)}
+        refreshTodos={fetchTodos}
       />
     </>
 

@@ -244,10 +244,13 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWit
                                 {getCreatedText()}
                             </span>
 
-                            <FaTrash
-                                className="delete-icon"
-                                onClick={() => setShowConfirm(true)}
-                            />
+                            <div className="tooltip-wrapper">
+                                <FaTrash
+                                    className="delete-icon"
+                                    onClick={() => setShowConfirm(true)}
+                                />
+                                <span className="tooltip-text">Delete Task</span>
+                            </div>
                         </div>
                         {showConfirm && (
                             <div

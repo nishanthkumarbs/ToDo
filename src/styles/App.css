@@ -1298,3 +1298,57 @@ button {
 .dark .search-icon {
     color: #adb5bd;
 }
+
+/* Tooltip Wrapper */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Tooltip Text */
+.tooltip-text {
+    position: absolute;
+    bottom: 130%;
+    /* show above icon */
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+/* Tooltip Arrow */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show on Hover */
+.tooltip-wrapper:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dark .tooltip-text {
+    background: #1e1e1e;
+}
+
+.dark .tooltip-text::after {
+    border-color: #1e1e1e transparent transparent transparent;
+}

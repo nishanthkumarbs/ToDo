@@ -49,16 +49,6 @@
       "category": "work"
     },
     {
-      "id": "2c2f",
-      "title": "repeat",
-      "completed": false,
-      "priority": "low",
-      "dueDate": "2026-03-05",
-      "category": "personal",
-      "repeat": "weekly",
-      "completedAt": null
-    },
-    {
       "id": "137f",
       "title": "todo",
       "completed": false,
@@ -81,6 +71,16 @@
       "reminder": "",
       "createdAt": "2026-02-28T10:55:33.558Z",
       "completedAt": "2026-02-28T11:06:46.606Z"
+    },
+    {
+      "id": "6ff4",
+      "title": "repeat",
+      "completed": false,
+      "priority": "low",
+      "dueDate": "2026-03-05",
+      "category": "personal",
+      "repeat": "weekly",
+      "completedAt": null
     }
   ]
 }

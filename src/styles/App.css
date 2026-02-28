@@ -1634,3 +1634,167 @@ button {
     border-color: #1f1f1f transparent transparent transparent;
 }
 
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+
+    .app-container {
+        width: 95%;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    /* Stats stack */
+    .task-stats {
+        flex-direction: column;
+        gap: 6px;
+        font-size: 13px;
+    }
+
+    /* Filter buttons stack */
+    .filter-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* Sort dropdown full width */
+    .sort-container {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .sort-select {
+        width: 100%;
+    }
+
+    /* Todo item stack */
+    .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .countdown-badge {
+        align-self: flex-start;
+    }
+
+    /* Calendar grid tighter */
+    .calendar-grid {
+        gap: 4px;
+    }
+
+    .calendar-cell {
+        min-height: 70px;
+        font-size: 11px;
+    }
+
+    /* Sidebar full width */
+    .sidebar {
+        width: 100%;
+    }
+
+    /* Task bar */
+    .task-bar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+}
+
+/* ================= TABLET ================= */
+@media (max-width: 768px) {
+
+    .app-container {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .calendar-cell {
+        min-height: 90px;
+    }
+
+    .sidebar {
+        width: 320px;
+    }
+
+    .task-bar {
+        flex-wrap: wrap;
+    }
+
+}
+
+/* ================= SMALL LAPTOP ================= */
+@media (max-width: 1024px) {
+
+    .app-container {
+        max-width: 900px;
+    }
+
+    .calendar-cell {
+        min-height: 110px;
+    }
+
+    .sidebar {
+        width: 360px;
+    }
+
+}
+
+/* ================= LARGE SCREENS ================= */
+@media (min-width: 1200px) {
+
+    .app-container {
+        max-width: 1200px;
+    }
+
+    .calendar-cell {
+        min-height: 140px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .calendar-container {
+        overflow-x: auto;
+    }
+
+    .calendar-grid {
+        min-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+        animation: slideUp 0.3s ease forwards;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    button {
+        padding: 10px 14px;
+    }
+
+    .task-icon {
+        font-size: 20px;
+    }
+}

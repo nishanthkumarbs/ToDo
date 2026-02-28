@@ -19,7 +19,7 @@
       "priority": "low",
       "dueDate": "2026-03-01",
       "category": "work",
-      "repeat": "none",
+      "repeat": "daily",
       "reminder": "2026-03-03T18:47",
       "createdAt": "2026-02-28T13:17:32.696Z",
       "completedAt": null

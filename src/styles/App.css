@@ -1224,3 +1224,21 @@ button {
     background: #5a67d8;
     transform: translateY(-1px);
 }
+
+.dark .sidebar-edit-btn {
+  border-color: #4dabf7;
+  color: #4dabf7;
+}
+
+.dark .sidebar-edit-btn:hover {
+  background: #4dabf7;
+  color: black;
+}
+
+.dark .sidebar-save-btn {
+  background: #4dabf7;
+}
+
+.dark .sidebar-save-btn:hover {
+  background: #339af0;
+}

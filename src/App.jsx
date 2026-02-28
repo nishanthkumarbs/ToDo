@@ -224,35 +224,6 @@ function App() {
               All
             </button>
 
-            <div className="sort-container">
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-                className="sort-select"
-              >
-                <option value="none">Sort Options</option>
-
-                <option value="priority-desc">
-                  Priority: High → Low
-                </option>
-
-                <option value="priority-asc">
-                  Priority: Low → High
-                </option>
-
-                <option value="date-asc">
-                  Due Date: Earliest First
-                </option>
-
-                <option value="date-desc">
-                  Due Date: Latest First
-                </option>
-
-                <option value="date-priority">
-                  Due Date → Then Priority
-                </option>
-              </select>
-            </div>
 
             <button
               className={filter === "completed" ? "active-filter" : ""}
@@ -267,7 +238,38 @@ function App() {
             >
               Pending
             </button>
+
           </div>
+          <div className="sort-container">
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="sort-select"
+            >
+              <option value="none">Sort Options</option>
+
+              <option value="priority-desc">
+                Priority: High → Low
+              </option>
+
+              <option value="priority-asc">
+                Priority: Low → High
+              </option>
+
+              <option value="date-asc">
+                Due Date: Earliest First
+              </option>
+
+              <option value="date-desc">
+                Due Date: Latest First
+              </option>
+
+              <option value="date-priority">
+                Due Date → Then Priority
+              </option>
+            </select>
+          </div>
+
 
           {completedCount > 0 && (
             <button className="clear-btn" onClick={clearCompleted}>

@@ -3,24 +3,31 @@
     {
       "id": "d113",
       "title": "Spring boot",
-      "completed": true,
+      "completed": false,
       "priority": "high",
       "dueDate": "2026-02-28",
-      "category": "study"
+      "category": "study",
+      "repeat": "daily",
+      "reminder": "2026-02-28T14:23"
     },
     {
       "id": "c80b",
       "title": "React",
       "completed": false,
       "priority": "medium",
-      "dueDate": "2026-02-27"
+      "dueDate": "2026-02-27",
+      "category": "study",
+      "repeat": "daily"
     },
     {
       "id": "d86d",
       "title": "Angular",
       "completed": false,
-      "priority": "low",
-      "dueDate": "2026-03-05"
+      "priority": "medium",
+      "dueDate": "2026-03-05",
+      "category": "study",
+      "repeat": "weekly",
+      "reminder": "2026-02-28T16:25"
     },
     {
       "id": "a58e",

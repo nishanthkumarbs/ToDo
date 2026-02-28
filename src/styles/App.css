@@ -14,7 +14,7 @@ body {
 
 /* Main Container */
 .app-container {
-    max-width: 900px;
+    max-width: 1000px;
     /* Increased width */
     width: 95%;
     /* Slightly wider on smaller screens */
@@ -866,4 +866,16 @@ button {
 .dark .sidebar {
     background: #1e1e1e;
     color: white;
+}
+
+.sidebar input[type="datetime-local"] {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.dark .sidebar input[type="datetime-local"] {
+    background: #333;
+    color: white;
+    border: 1px solid #555;
 }

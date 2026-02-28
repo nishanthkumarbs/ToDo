@@ -10,6 +10,7 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
     const [category, setCategory] = useState("work");
     const [priority, setPriority] = useState("medium");
     const [repeat, setRepeat] = useState("none");
+    const [reminder, setReminder] = useState("");
 
     // ✅ Sync state when selectedTask changes
     useEffect(() => {
@@ -20,6 +21,8 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
             setPriority(selectedTask.priority || "medium");
             setIsEditing(false);
             setRepeat(selectedTask.repeat || "none");
+            setReminder(selectedTask.reminder || "");
+
         }
     }, [selectedTask]);
 
@@ -33,6 +36,7 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
             dueDate,
             category,
             repeat,
+            reminder,
             priority
         });
 
@@ -86,13 +90,6 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
                             <option value="high">High</option>
                         </select>
 
-                        <div className="sidebar-section">
-                            <span>Repeat:</span>
-                            <span style={{ textTransform: "capitalize" }}>
-                                {selectedTask.repeat || "None"}
-                            </span>
-                        </div>
-
                         <select
                             value={repeat}
                             onChange={(e) => setRepeat(e.target.value)}
@@ -103,6 +100,13 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
                             <option value="weekly">Weekly</option>
                             <option value="monthly">Monthly</option>
                         </select>
+
+                        <input
+                            type="datetime-local"
+                            value={reminder}
+                            onChange={(e) => setReminder(e.target.value)}
+                            className="sidebar-input"
+                        />
 
                         <button className="save-btn" onClick={handleSave}>
                             Save Changes
@@ -133,6 +137,22 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
                         <div className="sidebar-section">
                             <FaFlag />
                             <span>{selectedTask.priority}</span>
+                        </div>
+
+                        <div className="sidebar-section">
+                            <span>Repeat:</span>
+                            <span style={{ textTransform: "capitalize" }}>
+                                {selectedTask.repeat || "None"}
+                            </span>
+                        </div>
+
+                        <div className="sidebar-section">
+                            <span>Reminder:</span>
+                            <span>
+                                {selectedTask.reminder
+                                    ? new Date(selectedTask.reminder).toLocaleString()
+                                    : "No reminder"}
+                            </span>
                         </div>
 
                         <button

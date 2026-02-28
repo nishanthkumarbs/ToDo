@@ -1352,3 +1352,285 @@ button {
 .dark .tooltip-text::after {
     border-color: #1e1e1e transparent transparent transparent;
 }
+
+/* FORM ROW STYLE (Sidebar Look) */
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Icon */
+.row-icon {
+    font-size: 14px;
+    color: #868e96;
+    min-width: 18px;
+}
+
+/* Inputs & Select */
+.form-row input,
+.form-row select {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    outline: none;
+    color: #212529;
+}
+
+/* Remove default date icon */
+.form-row input[type="date"]::-webkit-calendar-picker-indicator,
+.form-row input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.dark .form-row {
+    border-bottom: 1px solid #333;
+}
+
+.dark .form-row input,
+.dark .form-row select {
+    color: white;
+}
+
+.dark .row-icon {
+    color: #adb5bd;
+}
+
+.task-bar-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.task-bar {
+    display: flex;
+    align-items: center;
+    background: #e9ecef;
+    padding: 12px 18px;
+    border-radius: 8px;
+}
+
+.task-circle {
+    font-size: 18px;
+    margin-right: 12px;
+    color: #555;
+}
+
+.task-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: none;
+}
+
+.task-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.task-icon {
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+    transition: 0.2s ease;
+}
+
+.task-icon:hover {
+    color: #000;
+}
+
+.floating-menu {
+    position: absolute;
+    right: 0;
+    top: 65px;
+    background: white;
+    width: 220px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    z-index: 100;
+}
+
+.menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background: #f1f3f5;
+}
+
+/* ================= DARK MODE - TASK BAR ================= */
+
+.dark .task-bar {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #2c2c2c;
+}
+
+.dark .task-input {
+    color: white;
+}
+
+.dark .task-input::placeholder {
+    color: #aaa;
+}
+
+.dark .task-circle {
+    color: #888;
+}
+
+.dark .task-icon {
+    color: #aaa;
+}
+
+.dark .task-icon:hover {
+    color: #4dabf7;
+}
+
+/* ================= DARK MODE - FLOATING MENU ================= */
+
+.dark .floating-menu {
+    background: #1e1e1e;
+    border: 1px solid #2c2c2c;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dark .menu-item {
+    color: #ddd;
+}
+
+.dark .menu-item:hover {
+    background: #2a2a2a;
+}
+
+/* Inputs inside floating menu */
+.dark .floating-menu input {
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+/* Optional subtle glow when active */
+.dark .task-bar:focus-within {
+    border-color: #4dabf7;
+    box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.15);
+}
+
+/* Tooltip Wrapper */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+/* Tooltip Box */
+.tooltip-box {
+    position: absolute;
+    bottom: 160%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #333;
+    color: white;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+
+    z-index: 9999;
+}
+
+/* Tooltip Arrow */
+.tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show on hover */
+.tooltip-wrapper:hover .tooltip-box {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ================= DARK MODE TOOLTIP ================= */
+
+.dark .tooltip-box {
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(4px);
+    border: 1px solid #2c2c2c;
+    color: #f5f5f5;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Tooltip Arrow in Dark Mode */
+.dark .tooltip-box::after {
+    border-color: #1f1f1f transparent transparent transparent;
+}
+
+/* Wrapper */
+.input-tooltip-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+/* Tooltip */
+.input-tooltip {
+    position: absolute;
+    bottom: 140%;
+    left: 10px;
+
+    background: #333;
+    color: white;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+
+    white-space: nowrap;
+    z-index: 9999;
+}
+
+/* Arrow */
+.input-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 15px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show on hover */
+.input-tooltip-wrapper:hover .input-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dark .input-tooltip {
+    background: #1f1f1f;
+}
+
+.dark .input-tooltip::after {
+    border-color: #1f1f1f transparent transparent transparent;
+}
+

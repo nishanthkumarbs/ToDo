@@ -1,5 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createTodo } from "../services/api";
+import {
+    FaCalendarAlt,
+    FaFlag,
+    FaRedo,
+    FaBell,
+    FaTag,
+} from "react-icons/fa";
 
 const TodoForm = ({ fetchTodos }) => {
     const [title, setTitle] = useState("");
@@ -8,10 +15,13 @@ const TodoForm = ({ fetchTodos }) => {
     const [category, setCategory] = useState("work");
     const [repeat, setRepeat] = useState("none");
     const [reminder, setReminder] = useState("");
+    const wrapperRef = useRef(null);
+
+    const [activeMenu, setActiveMenu] = useState(null);
+    // "date" | "reminder" | "repeat" | "category" | "priority"
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!title.trim()) return;
 
         try {
@@ -23,7 +33,7 @@ const TodoForm = ({ fetchTodos }) => {
                 category,
                 repeat,
                 reminder,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
             });
 
             setTitle("");
@@ -31,70 +41,197 @@ const TodoForm = ({ fetchTodos }) => {
             setCategory("work");
             setRepeat("none");
             setReminder("");
-            fetchTodos(); // refresh list
+            setPriority("medium");
+
+            fetchTodos();
         } catch (error) {
             console.error("Error adding todo:", error);
         }
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                wrapperRef.current &&
+                !wrapperRef.current.contains(event.target)
+            ) {
+                setActiveMenu(null);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <form onSubmit={handleSubmit} className="todo-form">
-            <input type="text" placeholder="Enter todo..." value={title} onChange={(e) => setTitle(e.target.value)}
-                style={{ padding: "8px", width: "250px" }}
-            />
+        <div className="task-bar-wrapper" ref={wrapperRef}>
+            <form onSubmit={handleSubmit} autoComplete="off" className="task-bar">
 
-            <input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="date-input"
-            />
+                <div className="input-tooltip-wrapper">
+                    <input
+                        type="text"
+                        placeholder="Enter todos..."
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="task-input"
+                        autoComplete="off"
+                    />
 
-            <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="category-select"
-            >
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-                <option value="study">Study</option>
-                <option value="health">Health</option>
-            </select>
+                    <div className="input-tooltip">
+                        Add a new task
+                    </div>
+                </div>
 
-            <select
-                value={repeat}
-                onChange={(e) => setRepeat(e.target.value)}
-                className="category-select"
-            >
-                <option value="none">No Repeat</option>
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-            </select>
+                <div className="task-actions">
 
-            <input
-                type="datetime-local"
-                value={reminder}
-                onChange={(e) => setReminder(e.target.value)}
-                className="category-select"
-            />
+                    <div className="tooltip-wrapper">
+                        <FaCalendarAlt
+                            className="task-icon"
+                            onClick={() => setActiveMenu("date")}
+                        />
+                        <div className="tooltip-box">Due Date</div>
+                    </div>
 
-            <select
-                className={`priority-select prioritys-${priority}`}
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-            >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-            </select>
+                    <div className="tooltip-wrapper">
+                        <FaBell
+                            className="task-icon"
+                            onClick={() => setActiveMenu("reminder")}
+                        />
+                        <div className="tooltip-box">Reminder</div>
+                    </div>
 
+                    <div className="tooltip-wrapper">
+                        <FaRedo
+                            className="task-icon"
+                            onClick={() => setActiveMenu("repeat")}
+                        />
+                        <div className="tooltip-box">Repeat</div>
+                    </div>
 
+                    <div className="tooltip-wrapper">
+                        <FaTag
+                            className="task-icon"
+                            onClick={() => setActiveMenu("category")}
+                        />
+                        <div className="tooltip-box">Category</div>
+                    </div>
 
-            <button type="submit" style={{ marginLeft: "10px", padding: "8px" }}>
-                Add
-            </button>
-        </form>
+                    <div className="tooltip-wrapper">
+                        <FaFlag
+                            className="task-icon"
+                            onClick={() => setActiveMenu("priority")}
+                        />
+                        <div className="tooltip-box">Priority</div>
+                    </div>
+
+                </div>
+            </form>
+
+            {/* DATE MENU */}
+            {activeMenu === "date" && (
+                <div className="floating-menu">
+                    <div
+                        className="menu-item"
+                        onClick={() => {
+                            setDueDate(new Date().toISOString().split("T")[0]);
+                            setActiveMenu(null);
+                        }}
+                    >
+                        Today
+                    </div>
+
+                    <div
+                        className="menu-item"
+                        onClick={() => {
+                            const tomorrow = new Date();
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            setDueDate(tomorrow.toISOString().split("T")[0]);
+                            setActiveMenu(null);
+                        }}
+                    >
+                        Tomorrow
+                    </div>
+
+                    <div className="menu-item">
+                        <input
+                            type="date"
+                            value={dueDate}
+                            onChange={(e) => setDueDate(e.target.value)}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* REMINDER MENU */}
+            {activeMenu === "reminder" && (
+                <div className="floating-menu">
+                    <div className="menu-item">
+                        <input
+                            type="datetime-local"
+                            value={reminder}
+                            onChange={(e) => setReminder(e.target.value)}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* REPEAT MENU */}
+            {activeMenu === "repeat" && (
+                <div className="floating-menu">
+                    {["none", "daily", "weekly", "monthly"].map((r) => (
+                        <div
+                            key={r}
+                            className="menu-item"
+                            onClick={() => {
+                                setRepeat(r);
+                                setActiveMenu(null);
+                            }}
+                        >
+                            {r.charAt(0).toUpperCase() + r.slice(1)}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* CATEGORY MENU */}
+            {activeMenu === "category" && (
+                <div className="floating-menu">
+                    {["work", "personal", "study", "health"].map((c) => (
+                        <div
+                            key={c}
+                            className="menu-item"
+                            onClick={() => {
+                                setCategory(c);
+                                setActiveMenu(null);
+                            }}
+                        >
+                            {c.charAt(0).toUpperCase() + c.slice(1)}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {/* PRIORITY MENU */}
+            {activeMenu === "priority" && (
+                <div className="floating-menu">
+                    {["low", "medium", "high"].map((p) => (
+                        <div
+                            key={p}
+                            className="menu-item"
+                            onClick={() => {
+                                setPriority(p);
+                                setActiveMenu(null);
+                            }}
+                        >
+                            {p.charAt(0).toUpperCase() + p.slice(1)}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 

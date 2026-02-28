@@ -6,10 +6,16 @@ const CalendarView = ({ todos, setSelectedTask }) => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
+    // First day of current month
     const firstDayOfMonth = new Date(year, month, 1);
+
+    // Total days in month
     const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+
+    // Day index month starts on (0 = Sunday)
     const startDay = firstDayOfMonth.getDay();
 
+    // Generate calendar days
     const days = useMemo(() => {
         const calendarDays = [];
 
@@ -26,15 +32,26 @@ const CalendarView = ({ todos, setSelectedTask }) => {
         return calendarDays;
     }, [year, month, startDay, lastDateOfMonth]);
 
-    const tasksByDate = {};
-    todos.forEach((todo) => {
-        if (!todo.dueDate) return;
-        tasksByDate[todo.dueDate] = tasksByDate[todo.dueDate] || [];
-        tasksByDate[todo.dueDate].push(todo);
-    });
+    // Group tasks by dueDate (SAFE)
+    const tasksByDate = useMemo(() => {
+        const grouped = {};
+
+        todos.forEach((todo) => {
+            if (!todo.dueDate) return;
+
+            grouped[todo.dueDate] = grouped[todo.dueDate] || [];
+            grouped[todo.dueDate].push(todo);
+        });
+
+        return grouped;
+    }, [todos]);
+
+    // Today's date (for highlight)
+    const today = new Date();
 
     return (
         <div className="calendar-container">
+            {/* HEADER */}
             <div className="calendar-header-bar">
                 <button
                     onClick={() =>
@@ -47,7 +64,7 @@ const CalendarView = ({ todos, setSelectedTask }) => {
                 <h2>
                     {currentDate.toLocaleDateString("en-US", {
                         month: "long",
-                        year: "numeric"
+                        year: "numeric",
                     })}
                 </h2>
 
@@ -60,21 +77,32 @@ const CalendarView = ({ todos, setSelectedTask }) => {
                 </button>
             </div>
 
+            {/* GRID */}
             <div className="calendar-grid">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                    <div key={day} className="calendar-header">
-                        {day}
-                    </div>
-                ))}
+                {/* Week Headers */}
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                    (day) => (
+                        <div key={day} className="calendar-header">
+                            {day}
+                        </div>
+                    )
+                )}
 
+                {/* Calendar Cells */}
                 {days.map((date, index) => {
                     if (!date) {
-                        return <div key={index} className="calendar-cell empty" />;
+                        return (
+                            <div
+                                key={index}
+                                className="calendar-cell empty"
+                            />
+                        );
                     }
 
-                    const formattedDate = date.toISOString().split("T")[0];
+                    // SAFE date formatting (no timezone issue)
+                    const formattedDate =
+                        date.toLocaleDateString("en-CA");
 
-                    const today = new Date();
                     const isToday =
                         date.getDate() === today.getDate() &&
                         date.getMonth() === today.getMonth() &&
@@ -83,21 +111,26 @@ const CalendarView = ({ todos, setSelectedTask }) => {
                     return (
                         <div
                             key={index}
-                            className={`calendar-cell ${isToday ? "today-cell" : ""}`}
+                            className={`calendar-cell ${isToday ? "today-cell" : ""
+                                }`}
                         >
                             <div className="calendar-date">
                                 {date.getDate()}
                             </div>
 
-                            {tasksByDate[formattedDate]?.map((task) => (
-                                <div
-                                    key={task.id}
-                                    className="calendar-task"
-                                    onClick={() => setSelectedTask(task)}
-                                >
-                                    {task.title}
-                                </div>
-                            ))}
+                            {tasksByDate[formattedDate]?.map(
+                                (task) => (
+                                    <div
+                                        key={task.id}
+                                        className="calendar-task"
+                                        onClick={() =>
+                                            setSelectedTask(task)
+                                        }
+                                    >
+                                        {task.title}
+                                    </div>
+                                )
+                            )}
                         </div>
                     );
                 })}

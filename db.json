@@ -1,85 +1,27 @@
 {
   "todos": [
     {
-      "id": "d113",
-      "title": "Spring boot",
-      "completed": true,
-      "priority": "high",
+      "id": "8c2e",
+      "title": "Spring Boot",
+      "completed": false,
+      "priority": "medium",
       "dueDate": "2026-02-28",
       "category": "study",
       "repeat": "daily",
-      "reminder": "2026-02-28T14:05",
-      "completedAt": "2026-02-28T10:40:23.902Z"
-    },
-    {
-      "id": "c80b",
-      "title": "React",
-      "completed": true,
-      "priority": "medium",
-      "dueDate": "2026-02-27",
-      "category": "study",
-      "repeat": "daily",
-      "reminder": "",
-      "completedAt": "2026-02-28T10:41:36.295Z"
-    },
-    {
-      "id": "d86d",
-      "title": "Angular",
-      "completed": false,
-      "priority": "medium",
-      "dueDate": "2026-03-05",
-      "category": "study",
-      "repeat": "daily",
-      "reminder": "2026-02-28T16:25",
+      "reminder": "2026-03-02T06:43",
+      "createdAt": "2026-02-28T13:14:12.667Z",
       "completedAt": null
     },
     {
-      "id": "a58e",
-      "title": "Node js",
-      "completed": false,
-      "priority": "high",
-      "dueDate": "2026-03-07"
-    },
-    {
-      "id": "c474",
-      "title": "Project",
+      "id": "042a",
+      "title": "React Project",
       "completed": false,
       "priority": "low",
       "dueDate": "2026-03-01",
-      "category": "work"
-    },
-    {
-      "id": "137f",
-      "title": "todo",
-      "completed": false,
-      "priority": "low",
-      "dueDate": "2026-03-02",
-      "category": "personal",
-      "repeat": "none",
-      "reminder": "",
-      "createdAt": "2026-02-28T09:52:20.516Z",
-      "completedAt": null
-    },
-    {
-      "id": "6e04",
-      "title": "check",
-      "completed": true,
-      "priority": "medium",
-      "dueDate": "",
       "category": "work",
       "repeat": "none",
-      "reminder": "",
-      "createdAt": "2026-02-28T10:55:33.558Z",
-      "completedAt": "2026-02-28T11:06:46.606Z"
-    },
-    {
-      "id": "6ff4",
-      "title": "repeat",
-      "completed": false,
-      "priority": "low",
-      "dueDate": "2026-03-05",
-      "category": "personal",
-      "repeat": "weekly",
+      "reminder": "2026-03-03T18:47",
+      "createdAt": "2026-02-28T13:17:32.696Z",
       "completedAt": null
     }
   ]

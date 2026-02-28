@@ -38,6 +38,7 @@ const TodoList = ({ todos, fetchTodos, setTodos, setSelectedTask }) => {
                                         <TodoItem
                                             todo={todo}
                                             fetchTodos={fetchTodos}
+                                            setSelectedTask={setSelectedTask}
                                         />
                                     </div>
                                 )}

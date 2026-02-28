@@ -29,8 +29,9 @@
       "priority": "medium",
       "dueDate": "2026-03-05",
       "category": "study",
-      "repeat": "weekly",
-      "reminder": "2026-02-28T16:25"
+      "repeat": "daily",
+      "reminder": "2026-02-28T16:25",
+      "completedAt": null
     },
     {
       "id": "a58e",
@@ -54,30 +55,32 @@
       "priority": "low",
       "dueDate": "2026-03-05",
       "category": "personal",
-      "repeat": "weekly"
+      "repeat": "weekly",
+      "completedAt": null
     },
     {
       "id": "137f",
       "title": "todo",
-      "completed": true,
+      "completed": false,
       "priority": "low",
       "dueDate": "2026-03-02",
       "category": "personal",
       "repeat": "none",
       "reminder": "",
       "createdAt": "2026-02-28T09:52:20.516Z",
-      "completedAt": "2026-02-28T10:41:20.779Z"
+      "completedAt": null
     },
     {
       "id": "6e04",
       "title": "check",
-      "completed": false,
+      "completed": true,
       "priority": "medium",
       "dueDate": "",
       "category": "work",
       "repeat": "none",
       "reminder": "",
-      "createdAt": "2026-02-28T10:55:33.558Z"
+      "createdAt": "2026-02-28T10:55:33.558Z",
+      "completedAt": "2026-02-28T11:06:46.606Z"
     }
   ]
 }

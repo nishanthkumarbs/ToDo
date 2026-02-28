@@ -3,6 +3,7 @@ import { getTodos, deleteTodo } from "./services/api";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 
 function App() {
@@ -121,93 +122,99 @@ function App() {
   });
 
   return (
-    <div className={`app-container ${darkMode ? "dark" : ""}`}>
-      <button
-        className="dark-toggle"
-        onClick={() => setDarkMode(!darkMode)}
-      >
-        {darkMode ? "Light Mode" : "Dark Mode"}
-      </button>
-      <h1>Todo App</h1>
 
-      {loading && <p className="loading">Loading...</p>}
-      {error && <p className="error">{error}</p>}
-
-      <TodoForm fetchTodos={fetchTodos} />
-
-      <div className="task-stats">
-        <p>Total: {totalCount}</p>
-        <p>Completed: {completedCount}</p>
-        <p>Pending: {pendingCount}</p>
-      </div>
-
-      <input type="text" placeholder="Search todos..." value={search} onChange={(e) => setSearch(e.target.value)} className="search-input" />
-
-      <div className="filter-buttons">
+    <div className="background-overlay">
+      <div className={`app-container ${darkMode ? "dark" : ""}`}>
         <button
-          className={filter === "all" ? "active-filter" : ""}
-          onClick={() => setFilter("all")}
+          className="dark-toggle"
+          onClick={() => setDarkMode(!darkMode)}
         >
-          All
+          {darkMode ? <FaSun /> : <FaMoon />}
         </button>
+        <h1>Todo App</h1>
 
-        <div className="sort-container">
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="sort-select"
-          >
-            <option value="none">Sort Options</option>
+        {loading && <p className="loading">Loading...</p>}
+        {error && <p className="error">{error}</p>}
 
-            <option value="priority-desc">
-              Priority: High → Low
-            </option>
+        <TodoForm fetchTodos={fetchTodos} />
 
-            <option value="priority-asc">
-              Priority: Low → High
-            </option>
-
-            <option value="date-asc">
-              Due Date: Earliest First
-            </option>
-
-            <option value="date-desc">
-              Due Date: Latest First
-            </option>
-
-            <option value="date-priority">
-              Due Date → Then Priority
-            </option>
-          </select>
+        <div className="task-stats">
+          <p>Total: {totalCount}</p>
+          <p>Completed: {completedCount}</p>
+          <p>Pending: {pendingCount}</p>
         </div>
 
-        <button
-          className={filter === "completed" ? "active-filter" : ""}
-          onClick={() => setFilter("completed")}
-        >
-          Completed
-        </button>
+        <input type="text" placeholder="Search todos..." value={search} onChange={(e) => setSearch(e.target.value)} className="search-input" />
 
-        <button
-          className={filter === "pending" ? "active-filter" : ""}
-          onClick={() => setFilter("pending")}
-        >
-          Pending
-        </button>
+        <div className="filter-buttons">
+          <button
+            className={filter === "all" ? "active-filter" : ""}
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+
+          <div className="sort-container">
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="sort-select"
+            >
+              <option value="none">Sort Options</option>
+
+              <option value="priority-desc">
+                Priority: High → Low
+              </option>
+
+              <option value="priority-asc">
+                Priority: Low → High
+              </option>
+
+              <option value="date-asc">
+                Due Date: Earliest First
+              </option>
+
+              <option value="date-desc">
+                Due Date: Latest First
+              </option>
+
+              <option value="date-priority">
+                Due Date → Then Priority
+              </option>
+            </select>
+          </div>
+
+          <button
+            className={filter === "completed" ? "active-filter" : ""}
+            onClick={() => setFilter("completed")}
+          >
+            Completed
+          </button>
+
+          <button
+            className={filter === "pending" ? "active-filter" : ""}
+            onClick={() => setFilter("pending")}
+          >
+            Pending
+          </button>
+        </div>
+
+        {completedCount > 0 && (
+          <button className="clear-btn" onClick={clearCompleted}>
+            Clear Completed
+          </button>
+        )}
+
+        <TodoList
+          todos={filteredTodos}
+          fetchTodos={fetchTodos}
+          setTodos={setTodos}
+        />
       </div>
-
-      {completedCount > 0 && (
-        <button className="clear-btn" onClick={clearCompleted}>
-          Clear Completed
-        </button>
-      )}
-
-      <TodoList
-        todos={filteredTodos}
-        fetchTodos={fetchTodos}
-        setTodos={setTodos}
-      />
     </div>
+
+
+
   );
 }
 

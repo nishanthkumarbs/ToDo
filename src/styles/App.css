@@ -5,24 +5,34 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
     margin: 0;
     padding: 0;
+
+    background: url("../assets/Background.jpeg") no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* Main Container */
 .app-container {
     max-width: 600px;
-    margin: 60px auto;
-    background: white;
+    width: 90%;
+
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+
     padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+    transition: all 0.3s ease;
 }
 
 .app-container:hover {
     transform: translateY(-3px);
+}
+
+.dark .app-container {
+    background: rgba(25, 25, 25, 0.8);
 }
 
 /* Title */
@@ -282,14 +292,34 @@ button {
 
 /* Dark Mode Toggle Button */
 .dark-toggle {
-    float: right;
-    padding: 6px 12px;
-    border-radius: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
     border: none;
-    background-color: #222;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
+
     cursor: pointer;
-    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.dark-toggle:hover {
+    transform: rotate(20deg) scale(1.1);
+}
+
+.dark .dark-toggle {
+    background-color: rgba(255, 255, 255, 0.905);
+    color: orange;
 }
 
 /* Dark Theme */
@@ -561,14 +591,65 @@ button {
 }
 
 .edit-date-input {
-  margin-top: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
 }
 
 .dark .edit-date-input {
-  background-color: #333;
-  color: white;
-  border: 1px solid #555;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+/* Full Screen Overlay */
+.background-overlay {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+
+    background: rgba(0, 0, 0, 0.25);
+    /* dark transparent layer */
+    backdrop-filter: blur(4px);
+    /* actual blur */
+}
+
+.due-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+}
+
+.due-icon {
+    font-size: 12px;
+}
+
+.dark .due-icon {
+    color: #4dabf7;
+}
+
+/* Overdue */
+.due-overdue .due-value {
+    background-color: #ffc9c9;
+    color: #c92a2a;
+    font-weight: 700;
+}
+
+/* Due Today */
+.due-today .due-value {
+    background-color: #ffe066;
+    color: #e67700;
+    font-weight: 700;
+}
+
+.dark .due-overdue .due-value {
+    background-color: #5c1f1f;
+}
+
+.dark .due-today .due-value {
+    background-color: #5c4b1f;
 }

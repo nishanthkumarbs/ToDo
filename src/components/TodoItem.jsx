@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { deleteTodo, updateTodo } from "../services/api";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const TodoItem = ({ todo, fetchTodos }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -102,8 +103,19 @@ const TodoItem = ({ todo, fetchTodos }) => {
                         </span>
 
                         {todo.dueDate && (
-                            <div className="due-date-row">
-                                <span className="due-label">📅 Due:</span>
+                            <div
+                                className={`due-date-row ${daysLeft < 0
+                                        ? "due-overdue"
+                                        : daysLeft === 0
+                                            ? "due-today"
+                                            : ""
+                                    }`}
+                            >
+                                <span className="due-label">
+                                    <FaCalendarAlt className="due-icon" />
+                                    Due:
+                                </span>
+
                                 <span className="due-value">
                                     {new Date(todo.dueDate).toLocaleDateString("en-US", {
                                         year: "numeric",

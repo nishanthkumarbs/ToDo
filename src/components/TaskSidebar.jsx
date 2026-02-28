@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { updateTodo } from "../services/api";
 import { FaCalendarAlt, FaTag, FaFlag } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { deleteTodo } from "../services/api";
 
-const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
+const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos, handleDeleteWithUndo }) => {
     // ✅ All hooks must be at top level
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState("");
@@ -11,6 +13,12 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
     const [priority, setPriority] = useState("medium");
     const [repeat, setRepeat] = useState("none");
     const [reminder, setReminder] = useState("");
+    const [showConfirm, setShowConfirm] = useState(false);
+
+
+    useEffect(() => {
+        setShowConfirm(false);
+    }, [selectedTask]);
 
     // ✅ Sync state when selectedTask changes
     useEffect(() => {
@@ -42,6 +50,28 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
 
         refreshTodos();
         setIsEditing(false);
+    };
+
+    const handleDelete = () => {
+        handleDeleteWithUndo(selectedTask);
+        closeSidebar();
+    };
+
+    const getCreatedText = () => {
+        if (!selectedTask.createdAt) {
+            return "Created recently";
+        }
+
+        const created = new Date(selectedTask.createdAt);
+        const now = new Date();
+
+        const diffTime = now - created;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return "Created today";
+        if (diffDays === 1) return "Created yesterday";
+
+        return `Created ${diffDays} days ago`;
     };
 
     return (
@@ -161,6 +191,46 @@ const TaskSidebar = ({ selectedTask, closeSidebar, refreshTodos }) => {
                         >
                             Edit Task
                         </button>
+                        <div className="sidebar-footer">
+                            <span className="created-text">
+                                {getCreatedText()}
+                            </span>
+
+                            <FaTrash
+                                className="delete-icon"
+                                onClick={() => setShowConfirm(true)}
+                            />
+                        </div>
+                        {showConfirm && (
+                            <div
+                                className="confirm-overlay"
+                                onClick={() => setShowConfirm(false)}
+                            >
+                                <div
+                                    className="confirm-modal"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <p>Are you sure you want to delete this task?</p>
+
+                                    <div className="confirm-actions">
+                                        <button
+                                            className="cancel-btn"
+                                            onClick={() => setShowConfirm(false)}
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <button
+                                            className="delete-btn"
+                                            onClick={handleDelete}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                     </>
                 )}
             </div>

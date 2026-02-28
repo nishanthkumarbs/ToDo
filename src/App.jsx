@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTodos, deleteTodo } from "./services/api";
+import { getTodos, deleteTodo, createTodo } from "./services/api";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
@@ -17,6 +17,8 @@ function App() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [notifiedTasks, setNotifiedTasks] = useState([]);
   const [viewMode, setViewMode] = useState("list");
+  const [recentlyDeleted, setRecentlyDeleted] = useState(null);
+  const [showUndo, setShowUndo] = useState(false);
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
@@ -164,6 +166,20 @@ function App() {
     return 0;
   });
 
+  const handleDeleteWithUndo = async (task) => {
+    await deleteTodo(task.id);
+
+    setRecentlyDeleted(task);
+    setShowUndo(true);
+
+    setTimeout(() => {
+      setShowUndo(false);
+      setRecentlyDeleted(null);
+    }, 5000);
+
+    fetchTodos();
+  };
+
   return (
     <>
       <div className="background-overlay">
@@ -283,7 +299,30 @@ function App() {
         selectedTask={selectedTask}
         closeSidebar={() => setSelectedTask(null)}
         refreshTodos={fetchTodos}
+        handleDeleteWithUndo={handleDeleteWithUndo}
       />
+      {showUndo && recentlyDeleted && (
+        <div className="undo-toast">
+          Task deleted
+
+          <button
+            onClick={async () => {
+              await createTodo({
+                ...recentlyDeleted,
+                id: undefined // let json-server generate new id
+              });
+
+              await fetchTodos();
+
+              setShowUndo(false);
+              setRecentlyDeleted(null);
+              setSelectedTask(null); // close sidebar if open
+            }}
+          >
+            Undo
+          </button>
+        </div>
+      )}
     </>
 
 

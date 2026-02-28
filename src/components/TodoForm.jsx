@@ -22,7 +22,8 @@ const TodoForm = ({ fetchTodos }) => {
                 dueDate,
                 category,
                 repeat,
-                reminder
+                reminder,
+                createdAt: new Date().toISOString()
             });
 
             setTitle("");

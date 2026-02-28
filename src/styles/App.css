@@ -1022,3 +1022,130 @@ button {
 .calendar-task:hover {
     transform: scale(1.05);
 }
+
+/* Sidebar Footer */
+.sidebar-footer {
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 14px;
+}
+
+/* Created Text */
+.created-text {
+    color: #868e96;
+}
+
+/* Delete Icon */
+.delete-icon {
+    color: #868e96;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.delete-icon:hover {
+    color: #fa5252;
+}
+
+.dark .sidebar-footer {
+    border-top: 1px solid #333;
+}
+
+.dark .created-text,
+.dark .delete-icon {
+    color: #adb5bd;
+}
+
+.dark .delete-icon:hover {
+    color: #ff6b6b;
+}
+
+/* Confirmation Overlay */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* Modal */
+.confirm-modal {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.confirm-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    background: #dee2e6;
+    cursor: pointer;
+}
+
+.delete-btn {
+    flex: 1;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    background: #fa5252;
+    color: white;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #e03131;
+}
+
+.dark .confirm-modal {
+    background: #1e1e1e;
+    color: white;
+}
+
+.undo-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  animation: fadeIn 0.3s ease;
+  z-index: 3000;
+}
+
+.undo-toast button {
+  background: #4dabf7;
+  border: none;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}

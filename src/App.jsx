@@ -6,6 +6,7 @@ import "./styles/App.css";
 import { FaMoon, FaSun } from "react-icons/fa";
 import TaskSidebar from "./components/TaskSidebar";
 import CalendarView from "./components/CalendarView";
+import { FaSearch } from "react-icons/fa";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -203,7 +204,17 @@ function App() {
             <p>Pending: {pendingCount}</p>
           </div>
 
-          <input type="text" placeholder="Search todos..." value={search} onChange={(e) => setSearch(e.target.value)} className="search-input" />
+          <div className="search-container">
+            <FaSearch className="search-icon" />
+
+            <input
+              type="text"
+              placeholder="Search todos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="search-input"
+            />
+          </div>
 
           <div className="filter-buttons">
             <button

@@ -14,11 +14,51 @@ function App() {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("none");
   const [selectedTask, setSelectedTask] = useState(null);
+  const [notifiedTasks, setNotifiedTasks] = useState([]);
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
     return savedTheme === "true";
   });
+
+  useEffect(() => {
+    if ("Notification" in window) {
+      if (Notification.permission === "default") {
+        Notification.requestPermission();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+
+    const timeouts = [];
+
+    todos.forEach((todo) => {
+      if (!todo.reminder) return;
+
+      const reminderTime = new Date(todo.reminder);
+      const now = new Date();
+
+      const delay = reminderTime - now;
+
+      // Only schedule future reminders
+      if (delay > 0) {
+        const timeout = setTimeout(() => {
+          new Notification("⏰ Task Reminder", {
+            body: todo.title,
+          });
+        }, delay);
+
+        timeouts.push(timeout);
+      }
+    });
+
+    return () => {
+      timeouts.forEach((timeout) => clearTimeout(timeout));
+    };
+  }, [todos]);
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);

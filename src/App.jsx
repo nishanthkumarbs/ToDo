@@ -272,7 +272,10 @@ function App() {
               setSelectedTask={setSelectedTask}
             />
           ) : (
-            <CalendarView todos={filteredTodos} />
+            <CalendarView
+              todos={filteredTodos}
+              setSelectedTask={setSelectedTask}
+            />
           )}
         </div>
       </div>

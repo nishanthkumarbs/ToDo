@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 
-const CalendarView = ({ todos }) => {
+const CalendarView = ({ todos, setSelectedTask }) => {
     const [currentDate, setCurrentDate] = useState(new Date());
 
     const year = currentDate.getFullYear();
@@ -74,14 +74,27 @@ const CalendarView = ({ todos }) => {
 
                     const formattedDate = date.toISOString().split("T")[0];
 
+                    const today = new Date();
+                    const isToday =
+                        date.getDate() === today.getDate() &&
+                        date.getMonth() === today.getMonth() &&
+                        date.getFullYear() === today.getFullYear();
+
                     return (
-                        <div key={index} className="calendar-cell">
+                        <div
+                            key={index}
+                            className={`calendar-cell ${isToday ? "today-cell" : ""}`}
+                        >
                             <div className="calendar-date">
                                 {date.getDate()}
                             </div>
 
                             {tasksByDate[formattedDate]?.map((task) => (
-                                <div key={task.id} className="calendar-task">
+                                <div
+                                    key={task.id}
+                                    className="calendar-task"
+                                    onClick={() => setSelectedTask(task)}
+                                >
                                     {task.title}
                                 </div>
                             ))}

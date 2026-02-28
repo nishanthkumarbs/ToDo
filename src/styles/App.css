@@ -997,3 +997,28 @@ button {
     background: #333;
     color: white;
 }
+
+/* Highlight Today */
+.today-cell {
+    border: 2px solid #667eea;
+    background-color: #e7f0ff;
+}
+
+.dark .today-cell {
+    background-color: #1f2d4d;
+    border-color: #4dabf7;
+}
+
+.calendar-task {
+    font-size: 11px;
+    background: #667eea;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.calendar-task:hover {
+    transform: scale(1.05);
+}

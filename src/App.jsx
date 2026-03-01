@@ -27,7 +27,7 @@ function App() {
   const [profileOpen, setProfileOpen] = useState(false);
 
   const navigate = useNavigate();
-  const savedAvatar = localStorage.getItem("avatar");
+  
   const profileRef = useRef(null);
 
   useEffect(() => {
@@ -234,6 +234,7 @@ function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
+  const savedAvatar = user?.avatar;
 
   const handleLogout = () => {
     localStorage.removeItem("user");

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { loginUser } from "../services/api";
 
 const Login = ({ setUser }) => {
     const navigate = useNavigate();
@@ -24,30 +25,25 @@ const Login = ({ setUser }) => {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:5000/users", {
-                params: { email: loginData.email.trim() }
-            });
+            const user = await loginUser(
+                loginData.email.trim(),
+                loginData.password.trim()
+            );
 
-            if (res.data.length === 0) {
-                toast.error("User not found!");
-                return;
-            }
+            localStorage.setItem("user", JSON.stringify(user));
 
-            if (res.data[0].password === loginData.password.trim()) {
-                toast.success("Login Successful!");
-
-                localStorage.setItem("user", JSON.stringify(res.data[0]));
-                setUser(res.data[0]);   // 🔥 this updates App instantly
-                navigate("/");
-
-
-            } else {
-                toast.error("Wrong Password!");
-            }
+            toast.success("Login Successful!");
+            setUser(user);
+            navigate("/");
 
         } catch (error) {
-            console.error(error);
-            toast.error("Login failed!");
+            if (error.message === "USER_NOT_FOUND") {
+                toast.error("User not found!");
+            } else if (error.message === "INVALID_PASSWORD") {
+                toast.error("Wrong password!");
+            } else {
+                toast.error("Login failed!");
+            }
         }
     };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import API from "../services/api";
 
 const Profile = ({ darkMode }) => {
     const [passwordChecks, setPasswordChecks] = useState({
@@ -11,15 +12,15 @@ const Profile = ({ darkMode }) => {
         number: false,
         special: false
     });
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const [avatarPreview, setAvatarPreview] = useState(storedUser?.avatar || null);
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
-    const [showConfirm, setShowConfirm] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false)
     const navigate = useNavigate();
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState(storedUser?.name || "");
 
@@ -94,6 +95,37 @@ const Profile = ({ darkMode }) => {
         return "strong";
     };
 
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = async () => {
+            try {
+                const updatedUser = {
+                    ...storedUser,
+                    avatar: reader.result
+                };
+
+                const res = await API.put(
+                    `/users/${storedUser.id}`,
+                    updatedUser
+                );
+
+                localStorage.setItem("user", JSON.stringify(res.data));
+                setAvatarPreview(res.data.avatar);
+
+                toast.success("Avatar updated!");
+            } catch (error) {
+                console.error(error);
+                toast.error("Image upload failed!");
+            }
+        };
+
+        reader.readAsDataURL(file);
+    };
+
     const isPasswordValid =
         passwordChecks.length &&
         passwordChecks.uppercase &&
@@ -117,6 +149,26 @@ const Profile = ({ darkMode }) => {
                 <h2>Profile Settings</h2>
 
                 <div className="profile-card">
+
+                    <div className="avatar-section">
+                        <div className="avatar-large">
+                            {avatarPreview ? (
+                                <img src={avatarPreview} alt="avatar" />
+                            ) : (
+                                storedUser?.name?.charAt(0).toUpperCase()
+                            )}
+                        </div>
+
+                        <label className="avatar-upload-btn">
+                            Change Avatar
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                hidden
+                            />
+                        </label>
+                    </div>
 
                     <p><strong>Email:</strong> {storedUser?.email}</p>
 

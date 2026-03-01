@@ -1,40 +1,11 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": "4e57",
       "name": "Nishanth",
       "email": "nishanth@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "914d",
-      "name": "Nikhil Gowda",
-      "email": "nikhil@gmail.com",
-      "password": "Nikhil@123"
-    },
-    {
-      "id": "0df2",
-      "name": "Siddaraju",
-      "email": "siddaraju@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "5148",
-      "name": "Sanju",
-      "email": "sanju@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "a1a3",
-      "name": "p",
-      "email": "p@gmail.com",
-      "password": "12345"
-    },
-    {
-      "id": "108d",
-      "name": "Sowmya",
-      "email": "sowmya@gmail.com",
-      "password": "Sowmya@123"
+      "password": "Nish@123",
+      "avatar": null
     }
   ],
   "todos": [

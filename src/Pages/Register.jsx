@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { registerUser } from "../services/api";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -27,22 +28,8 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (registerData.password !== registerData.confirmPassword) {
-            toast.error("Passwords do not match!");
-            return;
-        }
-
         try {
-            const existingUser = await axios.get("http://localhost:5000/users", {
-                params: { email: registerData.email.trim() }
-            });
-
-            if (existingUser.data.length > 0) {
-                toast.error("Email already registered!");
-                return;
-            }
-
-            await axios.post("http://localhost:5000/users", {
+            await registerUser({
                 name: registerData.name.trim(),
                 email: registerData.email.trim(),
                 password: registerData.password.trim()
@@ -52,8 +39,11 @@ const Register = () => {
             navigate("/login");
 
         } catch (error) {
-            console.error(error);
-            toast.error("Registration failed!");
+            if (error.message === "EMAIL_EXISTS") {
+                toast.error("Email already registered!");
+            } else {
+                toast.error("Registration failed!");
+            }
         }
     };
 

@@ -2859,25 +2859,70 @@ button {
 }
 
 .password-match {
-  margin-top: -5px;
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 600;
-  transition: 0.2s ease;
+    margin-top: -5px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
 }
 
 .password-match.match {
-  color: #40c057;
+    color: #40c057;
 }
 
 .password-match.no-match {
-  color: #fa5252;
+    color: #fa5252;
 }
 
 .profile-dark .password-match.match {
-  color: #69db7c;
+    color: #69db7c;
 }
 
 .profile-dark .password-match.no-match {
-  color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-large {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #667eea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: white;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-upload-btn {
+    background: #667eea;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.avatar-upload-btn:hover {
+    background: #5563d1;
+}
+
+.dark .avatar-large {
+    background: #4dabf7;
 }

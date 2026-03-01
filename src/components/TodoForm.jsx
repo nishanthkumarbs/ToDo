@@ -25,6 +25,8 @@ const TodoForm = ({ fetchTodos }) => {
         if (!title.trim()) return;
 
         try {
+            const user = JSON.parse(localStorage.getItem("user"));
+
             await createTodo({
                 title,
                 completed: false,
@@ -34,6 +36,7 @@ const TodoForm = ({ fetchTodos }) => {
                 repeat,
                 reminder,
                 createdAt: new Date().toISOString(),
+                userId: user.id   // 🔥 important
             });
 
             setTitle("");

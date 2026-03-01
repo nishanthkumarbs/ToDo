@@ -4,7 +4,15 @@ import { FaCalendarAlt } from "react-icons/fa";
 const TodoItem = ({ todo, fetchTodos, setSelectedTask }) => {
 
     const handleToggle = async (e) => {
-        e.stopPropagation(); // prevent opening sidebar when toggling
+        e.stopPropagation(); // prevent opening sidebar
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        // 🔐 Ownership check
+        if (!user || todo.userId !== user.id) {
+            alert("Unauthorized action!");
+            return;
+        }
 
         try {
             await updateTodo(todo.id, {
@@ -60,10 +68,10 @@ const TodoItem = ({ todo, fetchTodos, setSelectedTask }) => {
                 {todo.dueDate && (
                     <div
                         className={`due-date-row ${daysLeft < 0
-                                ? "due-overdue"
-                                : daysLeft === 0
-                                    ? "due-today"
-                                    : ""
+                            ? "due-overdue"
+                            : daysLeft === 0
+                                ? "due-today"
+                                : ""
                             }`}
                     >
                         <span className="due-label">
@@ -85,12 +93,12 @@ const TodoItem = ({ todo, fetchTodos, setSelectedTask }) => {
             {daysLeft !== null && (
                 <span
                     className={`countdown-badge ${daysLeft < 0
-                            ? "overdue"
-                            : daysLeft === 0
-                                ? "today"
-                                : daysLeft <= 2
-                                    ? "warning"
-                                    : "safe"
+                        ? "overdue"
+                        : daysLeft === 0
+                            ? "today"
+                            : daysLeft <= 2
+                                ? "warning"
+                                : "safe"
                         }`}
                 >
                     {daysLeft > 0

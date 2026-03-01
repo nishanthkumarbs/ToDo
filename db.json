@@ -1,28 +1,67 @@
 {
-  "todos": [
+  "users": [
     {
-      "id": "8c2e",
-      "title": "Spring Boot",
-      "completed": false,
-      "priority": "medium",
-      "dueDate": "2026-02-28",
-      "category": "study",
-      "repeat": "daily",
-      "reminder": "2026-03-02T06:43",
-      "createdAt": "2026-02-28T13:14:12.667Z",
-      "completedAt": null
+      "id": "1",
+      "name": "Nishanth",
+      "email": "nishanth@gmail.com",
+      "password": "123456"
     },
     {
-      "id": "042a",
-      "title": "React Project",
+      "id": "914d",
+      "name": "Nikhil Gowda",
+      "email": "nikhil@gmail.com",
+      "password": "Nikhil@123"
+    },
+    {
+      "id": "0df2",
+      "name": "Siddaraju",
+      "email": "siddaraju@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "5148",
+      "name": "Sanju",
+      "email": "sanju@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "a1a3",
+      "name": "p",
+      "email": "p@gmail.com",
+      "password": "12345"
+    },
+    {
+      "id": "108d",
+      "name": "Sowmya",
+      "email": "sowmya@gmail.com",
+      "password": "Sowmya@123"
+    }
+  ],
+  "todos": [
+    {
+      "id": "3cff",
+      "title": "nishanth2",
+      "completed": true,
+      "priority": "medium",
+      "dueDate": "",
+      "category": "work",
+      "repeat": "none",
+      "reminder": "",
+      "createdAt": "2026-03-01T09:35:06.268Z",
+      "userId": "1",
+      "completedAt": "2026-03-01T09:53:13.533Z"
+    },
+    {
+      "id": "e636",
+      "title": "tablets",
       "completed": false,
       "priority": "low",
-      "dueDate": "2026-03-01",
-      "category": "work",
+      "dueDate": "2026-03-09",
+      "category": "health",
       "repeat": "daily",
-      "reminder": "2026-03-03T18:47",
-      "createdAt": "2026-02-28T13:17:32.696Z",
-      "completedAt": null
+      "reminder": "2026-03-01T19:30",
+      "createdAt": "2026-03-01T12:59:03.558Z",
+      "userId": "914d"
     }
   ]
 }

@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getTodos, deleteTodo, createTodo } from "./services/api";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
 import "./styles/App.css";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun, FaUserCog } from "react-icons/fa";
 import TaskSidebar from "./components/TaskSidebar";
 import CalendarView from "./components/CalendarView";
 import { FaSearch } from "react-icons/fa";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Profile from "./Pages/Profile";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -20,6 +24,30 @@ function App() {
   const [viewMode, setViewMode] = useState("list");
   const [recentlyDeleted, setRecentlyDeleted] = useState(null);
   const [showUndo, setShowUndo] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const savedAvatar = localStorage.getItem("avatar");
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const getAvatarColor = (name) => {
+    const colors = ["#667eea", "#f06595", "#20c997", "#fab005", "#4dabf7"];
+    const index = name?.charCodeAt(0) % colors.length;
+    return colors[index];
+  };
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
@@ -74,10 +102,20 @@ function App() {
       setLoading(true);
       setError(null);
 
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) return;
+
       const response = await getTodos();
-      setTodos(response.data);
+
+      // 🔐 Strict filtering
+      const userTodos = response.data.filter(
+        (todo) => todo.userId === user.id
+      );
+
+      setTodos(userTodos);
+
     } catch (err) {
-      setError("Failed to fetch todos. Make sure backend is running.");
+      setError("Failed to fetch todos.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -168,177 +206,262 @@ function App() {
   });
 
   const handleDeleteWithUndo = async (task) => {
-    await deleteTodo(task.id);
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    setRecentlyDeleted(task);
-    setShowUndo(true);
+    // 🔐 Ownership check
+    if (!user || task.userId !== user.id) {
+      alert("Unauthorized action!");
+      return;
+    }
 
-    setTimeout(() => {
-      setShowUndo(false);
-      setRecentlyDeleted(null);
-    }, 5000);
+    try {
+      await deleteTodo(task.id);
 
-    fetchTodos();
+      setRecentlyDeleted(task);
+      setShowUndo(true);
+
+      setTimeout(() => {
+        setShowUndo(false);
+        setRecentlyDeleted(null);
+      }, 5000);
+
+      fetchTodos();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
   };
 
   return (
-    <>
-      <div className="background-overlay">
-        <div className={`app-container ${darkMode ? "dark" : ""}`}>
-          <button
-            className="dark-toggle"
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </button>
-          <h1>Todo App</h1>
+    <Routes>
 
-          {loading && <p className="loading">Loading...</p>}
-          {error && <p className="error">{error}</p>}
-
-          <TodoForm fetchTodos={fetchTodos} />
-
-          <div className="task-stats">
-            <p>Total: {totalCount}</p>
-            <p>Completed: {completedCount}</p>
-            <p>Pending: {pendingCount}</p>
-          </div>
-
-          <div className="search-container">
-            <FaSearch className="search-icon" />
-
-            <input
-              type="text"
-              placeholder="Search todos..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="search-input"
-            />
-          </div>
-
-          <div className="filter-buttons">
-            <button
-              className={filter === "all" ? "active-filter" : ""}
-              onClick={() => setFilter("all")}
-            >
-              All
-            </button>
-
-
-            <button
-              className={filter === "completed" ? "active-filter" : ""}
-              onClick={() => setFilter("completed")}
-            >
-              Completed
-            </button>
-
-            <button
-              className={filter === "pending" ? "active-filter" : ""}
-              onClick={() => setFilter("pending")}
-            >
-              Pending
-            </button>
-
-          </div>
-          <div className="sort-container">
-            <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-              className="sort-select"
-            >
-              <option value="none">Sort Options</option>
-
-              <option value="priority-desc">
-                Priority: High → Low
-              </option>
-
-              <option value="priority-asc">
-                Priority: Low → High
-              </option>
-
-              <option value="date-asc">
-                Due Date: Earliest First
-              </option>
-
-              <option value="date-desc">
-                Due Date: Latest First
-              </option>
-
-              <option value="date-priority">
-                Due Date → Then Priority
-              </option>
-            </select>
-          </div>
-
-
-          {completedCount > 0 && (
-            <button className="clear-btn" onClick={clearCompleted}>
-              Clear Completed
-            </button>
-          )}
-
-          <div className="view-toggle">
-            <button
-              className={viewMode === "list" ? "active-view" : ""}
-              onClick={() => setViewMode("list")}
-            >
-              List View
-            </button>
-
-            <button
-              className={viewMode === "calendar" ? "active-view" : ""}
-              onClick={() => setViewMode("calendar")}
-            >
-              Calendar View
-            </button>
-          </div>
-
-          {viewMode === "list" ? (
-            <TodoList
-              todos={filteredTodos}
-              fetchTodos={fetchTodos}
-              setTodos={setTodos}
-              setSelectedTask={setSelectedTask}
-            />
+      {/* LOGIN */}
+      <Route
+        path="/login"
+        element={
+          !user ? (
+            <Login setUser={setUser} />
           ) : (
-            <CalendarView
-              todos={filteredTodos}
-              setSelectedTask={setSelectedTask}
-            />
-          )}
-        </div>
-      </div>
-      <TaskSidebar
-        selectedTask={selectedTask}
-        closeSidebar={() => setSelectedTask(null)}
-        refreshTodos={fetchTodos}
-        handleDeleteWithUndo={handleDeleteWithUndo}
+            <Navigate to="/" />
+          )
+        }
       />
-      {showUndo && recentlyDeleted && (
-        <div className="undo-toast">
-          Task deleted
 
-          <button
-            onClick={async () => {
-              await createTodo({
-                ...recentlyDeleted,
-                id: undefined // let json-server generate new id
-              });
+      {/* REGISTER */}
+      <Route
+        path="/register"
+        element={!user ? <Register /> : <Navigate to="/" />}
+      />
 
-              await fetchTodos();
+      <Route
+        path="/profile"
+        element={
+          user ? (
+            <Profile darkMode={darkMode} />
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
 
-              setShowUndo(false);
-              setRecentlyDeleted(null);
-              setSelectedTask(null); // close sidebar if open
-            }}
-          >
-            Undo
-          </button>
-        </div>
-      )}
-    </>
+      {/* PROTECTED HOME */}
+      <Route
+        path="/"
+        element={
+          user ? (
+            <>
+              <div className="background-overlay">
+                <div className={`app-container ${darkMode ? "dark" : ""}`}>
 
+                  <button
+                    className="dark-toggle"
+                    onClick={() => setDarkMode(!darkMode)}
+                  >
+                    {darkMode ? <FaSun /> : <FaMoon />}
+                  </button>
 
+                  <div className="top-bar">
+                    <div className="profile-wrapper" ref={profileRef}>
+                      <div
+                        className="avatar-circle"
+                        style={{
+                          background: savedAvatar
+                            ? "transparent"
+                            : getAvatarColor(user?.name)
+                        }}
+                        onClick={() => setProfileOpen(!profileOpen)}
+                      >
+                        {savedAvatar ? (
+                          <img src={savedAvatar} alt="avatar" className="avatar-img" />
+                        ) : (
+                          user?.name?.charAt(0).toUpperCase()
+                        )}
+                      </div>
+                      {profileOpen && (
+                        <div className="profile-dropdown">
+                          <p className="profile-name">{user?.name}</p>
+                          <p className="profile-email">{user?.email}</p>
+
+                          <div className="dropdown-divider"></div>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => navigate("/profile")}
+                          >
+                            <FaUserCog style={{ marginRight: "8px" }} />
+                            Profile Settings
+                          </button>
+
+                          <button onClick={handleLogout} className="dropdown-logout">
+                            Logout
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <h1>Todo App</h1>
+
+                  {loading && <p className="loading">Loading...</p>}
+                  {error && <p className="error">{error}</p>}
+
+                  <TodoForm fetchTodos={fetchTodos} />
+
+                  <div className="task-stats">
+                    <p>Total: {totalCount}</p>
+                    <p>Completed: {completedCount}</p>
+                    <p>Pending: {pendingCount}</p>
+                  </div>
+
+                  <div className="search-container">
+                    <FaSearch className="search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search todos..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className="search-input"
+                    />
+                  </div>
+
+                  <div className="filter-buttons">
+                    <button
+                      className={filter === "all" ? "active-filter" : ""}
+                      onClick={() => setFilter("all")}
+                    >
+                      All
+                    </button>
+
+                    <button
+                      className={filter === "completed" ? "active-filter" : ""}
+                      onClick={() => setFilter("completed")}
+                    >
+                      Completed
+                    </button>
+
+                    <button
+                      className={filter === "pending" ? "active-filter" : ""}
+                      onClick={() => setFilter("pending")}
+                    >
+                      Pending
+                    </button>
+                  </div>
+
+                  <div className="sort-container">
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
+                      className="sort-select"
+                    >
+                      <option value="none">Sort Options</option>
+                      <option value="priority-desc">Priority: High → Low</option>
+                      <option value="priority-asc">Priority: Low → High</option>
+                      <option value="date-asc">Due Date: Earliest First</option>
+                      <option value="date-desc">Due Date: Latest First</option>
+                      <option value="date-priority">Due Date → Then Priority</option>
+                    </select>
+                  </div>
+
+                  {completedCount > 0 && (
+                    <button className="clear-btn" onClick={clearCompleted}>
+                      Clear Completed
+                    </button>
+                  )}
+
+                  <div className="view-toggle">
+                    <button
+                      className={viewMode === "list" ? "active-view" : ""}
+                      onClick={() => setViewMode("list")}
+                    >
+                      List View
+                    </button>
+
+                    <button
+                      className={viewMode === "calendar" ? "active-view" : ""}
+                      onClick={() => setViewMode("calendar")}
+                    >
+                      Calendar View
+                    </button>
+                  </div>
+
+                  {viewMode === "list" ? (
+                    <TodoList
+                      todos={filteredTodos}
+                      fetchTodos={fetchTodos}
+                      setTodos={setTodos}
+                      setSelectedTask={setSelectedTask}
+                    />
+                  ) : (
+                    <CalendarView
+                      todos={filteredTodos}
+                      setSelectedTask={setSelectedTask}
+                    />
+                  )}
+
+                </div>
+              </div>
+
+              <TaskSidebar
+                selectedTask={selectedTask}
+                closeSidebar={() => setSelectedTask(null)}
+                refreshTodos={fetchTodos}
+                handleDeleteWithUndo={handleDeleteWithUndo}
+              />
+
+              {showUndo && recentlyDeleted && (
+                <div className="undo-toast">
+                  Task deleted
+                  <button
+                    onClick={async () => {
+                      await createTodo({
+                        ...recentlyDeleted,
+                        id: undefined
+                      });
+                      await fetchTodos();
+                      setShowUndo(false);
+                      setRecentlyDeleted(null);
+                      setSelectedTask(null);
+                    }}
+                  >
+                    Undo
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+
+    </Routes>
   );
 }
 
